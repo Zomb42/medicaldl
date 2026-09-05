@@ -1,11 +1,28 @@
 import streamlit as st
 import cv2 as cv
 import numpy as np
+from io import BytesIO
 from PIL import Image
 import detection.detect as detect
 import classification.classify as classify
 import segmentation.segment as segment
 import muscledetect.muscledetect as mfrac
+
+
+def load_image(uploaded_file, demo_image_path):
+    if uploaded_file is None:
+        img = cv.imread(demo_image_path)
+        image = Image.open(demo_image_path)
+    else:
+        file_bytes = uploaded_file.getvalue()
+        img = cv.imdecode(np.frombuffer(file_bytes, np.uint8), cv.IMREAD_COLOR)
+        image = Image.open(BytesIO(file_bytes)).convert("RGB")
+
+    if img is None:
+        st.error("Unable to read the selected image.")
+        st.stop()
+
+    return img, np.array(image)
 
 
 
@@ -72,12 +89,7 @@ def main():
         img_file_buffer_detect = st.sidebar.file_uploader("Upload an image", type=['jpg','jpeg', 'png'], key=0)
         DEMO_IMAGE = "DEMO_IMAGES/BloodImage_00000_jpg.rf.5fb00ac1228969a39cee7cd6678ee704.jpg"
         
-        if img_file_buffer_detect is not None:
-            img = cv.imdecode(np.fromstring(img_file_buffer_detect.read(), np.uint8), 1)
-            image = np.array(Image.open(img_file_buffer_detect))
-        else:
-            img = cv.imread(DEMO_IMAGE)
-            image = np.array(Image.open(DEMO_IMAGE))
+        img, image = load_image(img_file_buffer_detect, DEMO_IMAGE)
         st.sidebar.text("Original Image")
         st.sidebar.image(image)
         
@@ -93,12 +105,7 @@ def main():
         img_file_buffer_classify = st.sidebar.file_uploader("Upload an image", type=['jpg','jpeg', 'png'], key=1)
         DEMO_IMAGE = "DEMO_IMAGES/094.png"
         
-        if img_file_buffer_classify is not None:
-            img = cv.imdecode(np.fromstring(img_file_buffer_classify.read(), np.uint8), 1)
-            image = np.array(Image.open(img_file_buffer_classify))
-        else:
-            img = cv.imread(DEMO_IMAGE)
-            image = np.array(Image.open(DEMO_IMAGE))
+        img, image = load_image(img_file_buffer_classify, DEMO_IMAGE)
         st.sidebar.text("Original Image")
         st.sidebar.image(image)
         
@@ -114,12 +121,7 @@ def main():
         img_file_buffer_classify = st.sidebar.file_uploader("Upload an image", type=['jpg','jpeg', 'png'], key=1)
         DEMO_IMAGE = "DEMO_IMAGES/fracture.png"
         
-        if img_file_buffer_classify is not None:
-            img = cv.imdecode(np.fromstring(img_file_buffer_classify.read(), np.uint8), 1)
-            image = np.array(Image.open(img_file_buffer_classify))
-        else:
-            img = cv.imread(DEMO_IMAGE)
-            image = np.array(Image.open(DEMO_IMAGE))
+        img, image = load_image(img_file_buffer_classify, DEMO_IMAGE)
         st.sidebar.text("Original Image")
         st.sidebar.image(image)
         
@@ -144,12 +146,7 @@ def main():
         img_file_buffer_segment = st.sidebar.file_uploader("Upload an image", type=['jpg','jpeg', 'png'], key=2)
         DEMO_IMAGE = "DEMO_IMAGES/benign (2).png"
         
-        if img_file_buffer_segment is not None:
-            img = cv.imdecode(np.fromstring(img_file_buffer_segment.read(), np.uint8), 1)
-            image = np.array(Image.open(img_file_buffer_segment))
-        else:
-            img = cv.imread(DEMO_IMAGE)
-            image = np.array(Image.open(DEMO_IMAGE))
+        img, image = load_image(img_file_buffer_segment, DEMO_IMAGE)
         st.sidebar.text("Original Image")
         st.sidebar.image(image)
         
@@ -172,4 +169,3 @@ if __name__ == "__main__":
     except SystemExit:
         pass
         
-

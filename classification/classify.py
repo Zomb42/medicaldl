@@ -1,28 +1,28 @@
 from ultralytics import YOLO
-import os
 import numpy as np
 import cv2 as cv
+from model_paths import PROJECT_ROOT, require_model
 
-def train():
+
+def train(data_dir=PROJECT_ROOT / "datasets" / "covid19"):
     model = YOLO("yolov8n-cls.yaml")
-    model.train(data="D:\\computer-vision\\projects\\streamlit-dashboard\\classification\\Covid19-dataset", epochs=100)
+    model.train(data=str(data_dir), epochs=100)
     
     
 
 def predict(img, st):
-    model_path= os.path.join('.', 'runs', 'classify', 'train', 'weights', 'best.pt')
+    model_path = require_model("lung_classification", st)
     model = YOLO(model_path)
     
     results = model.predict(img)
     result = results[0]
     
     class_names = result.names
-    probs = result.probs.data.tolist()
-    class_name = class_names[np.argmax(probs)].upper()
-    width = img.shape[0]
-    cv.putText(img, class_name, (width - 80, 60),cv.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3, cv.LINE_AA)
+    class_id = int(result.probs.top1) if hasattr(result.probs, "top1") else int(np.argmax(result.probs.data.tolist()))
+    class_name = class_names[class_id].upper()
+    _, width = img.shape[:2]
+    cv.putText(img, class_name, (max(width - 220, 10), 60), cv.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3, cv.LINE_AA)
     
     
     st.subheader('Output Image')
-    st.image(img, channels="BGR", use_column_width=True)
-
+    st.image(img, channels="BGR", use_container_width=True)

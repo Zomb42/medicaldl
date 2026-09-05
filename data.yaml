@@ -1,5 +1,5 @@
-train: /Users/derickshi/Documents/Yolomedical/train/
-val: /Users/derickshi/Documents/Yolomedical/test/
+train: data/train
+val: data/test
 
 # Classes
 nc: 2

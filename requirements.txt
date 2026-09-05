@@ -1,8 +1,7 @@
-numpy
-opencv_python==4.10.0.82
-Pillow==10.3.0
-PyYAML==6.0.1
-streamlit==1.32.0
-ultralytics==8.0.230
-splitfolders
-cv
+numpy>=1.26,<3
+opencv-python>=4.10.0.84,<5
+Pillow>=12.3.0,<13
+PyYAML>=6.0.3,<7
+streamlit>=1.62.0,<2
+ultralytics>=8.4.139,<9
+split-folders>=0.5.1,<0.6

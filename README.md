@@ -1,121 +1,101 @@
-# DISCLAIMER
-This project is an app that was primarily developed by sevdaimany. This is the original github https://github.com/sevdaimany/YOLOv8-Medical-Imaging/tree/master. The vast majority of the text below and code is the same as the project mentioned except for a few minor changes that we (John, Jack, Cameron, and Derick) added to make it better equipped for the EE-24235-01 The Science and Engineering of Digital Photography taught by Professor Hoffman at the London 1 Summer Engineering Study Abroad Program 2024. I essentially just fixed several small issues with the original file and trained/developed an additional yolov8 model on some fracture xrays images to illustrate how deep learning models could assist medical professionals.
+# YOLOv8 Medical Imaging Demo
 
-In order to fully utilize the app, it's recommended that you create an anaconda virtual environment and activate the environment.yml file provided. Due to the wide array of packages and modules needed, it is recommended that anaconda is used instead of just directly installing the requirements file. You would then clone the repositary, cd into the file, and run the app.py file by doing:
+This Streamlit app demonstrates YOLOv8-based medical image classification, object detection, and segmentation workflows. It includes demo images and previously trained weights so the app can be tried without downloading the full training datasets.
+
+> This project is for education and experimentation only. It is not a medical device and must not be used for diagnosis or clinical decision-making.
+
+## Project Background
+
+This repository began as a modified version of [sevdaimany/YOLOv8-Medical-Imaging](https://github.com/sevdaimany/YOLOv8-Medical-Imaging). The app was adapted for EE-24235-01, The Science and Engineering of Digital Photography, with an added musculoskeletal fracture classifier trained on FracAtlas-style X-ray images.
+
+The app currently exposes four demo tasks:
+
+- Musculoskeletal fracture classification
+- Blood cell object detection
+- Lung X-ray classification
+- Breast ultrasound segmentation
+
+## Quick Start
+
+### Option 1: Conda
 
 ```bash
+conda env create -f environment.yml
+conda activate yolomedical
 streamlit run app.py
 ```
 
-The following readme text until the end is directly copied over from the orignal github as I thought it was still pretty informative:
+If you already have the `yolomedical` environment, update it instead:
 
-# YOLOv8 Medical Imaging
-
-YOLO is known for its ability to detect objects in an image in a single pass, making it a highly efficient and accurate object detection algorithm.🎯
-https://github.com/ultralytics/ultralytics?tab=readme-ov-file 
-The latest version of YOLO, YOLOv8, released in January 2023 by Ultralytics, has introduced several modifications that have further improved its performance.
-
-In this project, I will focus on three major computer vision tasks that YOLOv8 can be used for: **classification**, **detection**, and **segmentation**. I will explore how YOLOv8 can be applied in the 
-field of medical imaging to detect and classify various anomalies and diseases🧪💊.
-
-
-## Introduction to YOLOv8
-Some of the notable modifications in YOLOv8 include:
-
-- **New Backbone Network**: YOLOv8 adopts the powerful Darknet-53 as its backbone network, enhancing feature extraction capabilities.
-
-- **Anchor-Free Detection**: YOLOv8 employs an anchor-free detection head, which directly predicts the center of an object instead of relying on offset values from predefined anchor boxes.
-
-- **New Loss Function**
-
-## Tasks
-
-In this project, I focus on three major computer vision tasks using YOLOv8, all accessible through the Streamlit web application:
-
-1. **Classification:** Utilize the YOLOv8 model to classify medical images into three categories: COVID-19, Viral Pneumonia, and Normal, using the [COVID-19 Image 
-Dataset](https://www.kaggle.com/datasets/pranavraikokte/covid19-image-dataset).
-
-2. **Object Detection:** Employ YOLOv8 for detecting Red Blood Cells (RBC), White Blood Cells (WBC), and Platelets in blood cell images using the [RBC and WBC Blood Cells Detection 
-Dataset](https://universe.roboflow.com/tfg-2nmge/yolo-yejbs).
-
-3. **Segmentation:** Use YOLOv8 for segmenting breast ultrasound images with the [Breast Ultrasound Images Dataset](https://www.kaggle.com/datasets/aryashah2k/breast-ultrasound-images-dataset).
-
-## Screenshots
-
-I used Streamlit to create a user-friendly interface for easy interaction with the YOLOv8 model. Below are screenshots of each part:
-
-### About page
-
-![About](https://github.com/sevdaimany/YOLOv8-Medical-Imaging/blob/master/intro_screenshot.png)
-
-
-### Object Detection
-
-![Object Detection Screenshot](https://github.com/sevdaimany/YOLOv8-Medical-Imaging/blob/master/detection/detection_screenshot.png)
-
-### Classification
-
-![Classification Screenshot](https://github.com/sevdaimany/YOLOv8-Medical-Imaging/blob/master/classification/classification_screenshot.png)
-
-
-### Segmentation
-
-![Segmentation Screenshot](https://github.com/sevdaimany/YOLOv8-Medical-Imaging/blob/master/segmentation/segmentation_screenshot.png)
-
-## Installation and Usage
-
-### Installation
-(Make sure to read the disclaimer above)
-1. Clone this repository to your local machine:
-
-   ```bash
-   git clone https://github.com/sevdaimany/YOLOv8-Medical-Imaging.git
-   ```
-2. Navigate to the project directory:
-
-   ```bash
-   cd YOLOv8-Medical-Imaging
-   ```
-3. Create a virtual environment (optional but recommended):
-
-   ```bash
-   python -m venv venv
-   ```
-4. Activate the virtual environment:
-
-On Windows:
-
-   ```bash
-venv\Scripts\activate
-
-   ```
-
-On macOS and Linux:
-
-   ```bash
-source venv/bin/activate
-
-   ```
-5. Install the required dependencies from the provided requirements.txt file:
-
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-
-## Usage
-**Using the Provided Demo Images**
-
-I've made it easy for you to get started with our project without the need to download a dataset. I've included a set of demo images in the DEMO_IMAGES directory. You can use these images to quickly see 
-how our project works.
-
-**Run the Streamlit App:**
-
-Start the Streamlit app to see our project in action:
 ```bash
+conda activate yolomedical
+pip install --upgrade -r requirements.txt
 streamlit run app.py
 ```
 
+### Option 2: Python venv
 
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+streamlit run app.py
+```
 
+On Windows, activate the environment with:
+
+```bash
+.venv\Scripts\activate
+```
+
+## Repository Layout
+
+- `app.py`: Streamlit entry point
+- `classification/`: Lung X-ray classification code
+- `detection/`: Blood cell detection code
+- `segmentation/`: Ultrasound segmentation code
+- `muscledetect/`: Musculoskeletal fracture classification code
+- `DEMO_IMAGES/`: Images used when no file is uploaded
+- `models/`: Small trained weights used by the demo app
+- `runs/`: Generated training outputs, ignored by git
+
+The full training datasets and generated run artifacts are intentionally not part of the public source tree. Keep local datasets under `data/` or `FracAtlas/`; both paths are ignored by git.
+
+## Security Notes
+
+The dependency pins were refreshed to address Dependabot alerts for vulnerable `Pillow` and `streamlit` releases. Keep dependencies current with:
+
+```bash
+pip install --upgrade -r requirements.txt
+```
+
+For public deployments, avoid accepting untrusted files beyond image uploads, run Streamlit behind normal access controls, and do not expose training data containing protected health information.
+
+## Smoke Test
+
+Run the lightweight import and model-file check with:
+
+```bash
+python -m unittest discover -s tests
+```
+
+## Training
+
+Training hooks are present in `train_models()` inside `app.py`, but they assume the original datasets exist locally. To retrain models, update the dataset paths in the relevant module first:
+
+- `classification/classify.py`
+- `detection/detect.py`
+- `segmentation/segment.py`
+- `muscledetect/muscledetect.py`
+
+Then uncomment the `train_models()` call at the bottom of `app.py`.
+
+After retraining, copy the best weights you want the app to use into `models/`:
+
+```bash
+cp runs/detect/train/weights/best.pt models/blood-cell-detection.pt
+cp runs/classify/train/weights/best.pt models/lung-classification.pt
+cp runs/segment/train/weights/best.pt models/ultrasound-segmentation.pt
+cp runs/muscleclassify/train/weights/best.pt models/fracture-classification.pt
+```

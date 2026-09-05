@@ -1,27 +1,25 @@
 
 from ultralytics import YOLO
-import os
 import numpy as np
 import cv2 as cv
+from model_paths import PROJECT_ROOT, require_model
 
 
 
-def train():
+def train(data_dir=PROJECT_ROOT / "data"):
     # Path to the YOLO configuration file for classification
     model = YOLO("yolov8n-cls.pt")
     
     # Path to your dataset
-    data_path = '/Users/derickshi/Documents/Yolomedical/data'
-    
-    save_dir = '/Users/derickshi/Documents/Yolomedical/runs/muscleclassify'
+    save_dir = PROJECT_ROOT / 'runs' / 'muscleclassify'
 
     # Train the model
-    results = model.train(data=data_path, epochs=2, project = save_dir)
+    results = model.train(data=str(data_dir), epochs=2, project=str(save_dir))
 
 
 def predict(img, st):
     # Path to the best weights file after training
-    model_path = os.path.join('.', 'runs', 'muscleclassify', 'train17', 'weights', 'best.pt')
+    model_path = require_model("fracture_classification", st)
     #model_path = '/Users/derickshi/Documents/Yolomedical/bonebest.pt'
     # Load the trained model
     model = YOLO(model_path)
@@ -32,8 +30,8 @@ def predict(img, st):
     
     # Get class names and probabilities
     class_names = result.names
-    probs = result.probs.data.tolist()
-    class_name = class_names[np.argmax(probs)].upper()
+    class_id = int(result.probs.top1) if hasattr(result.probs, "top1") else int(np.argmax(result.probs.data.tolist()))
+    class_name = class_names[class_id].upper()
     
     # Display the class name on the image
     height, width = img.shape[:2]
@@ -41,8 +39,5 @@ def predict(img, st):
     
     # Display the image using Streamlit
     st.subheader('Output Image')
-    st.image(img, channels="BGR", use_column_width=True)
-
-
-
+    st.image(img, channels="BGR", use_container_width=True)
 
