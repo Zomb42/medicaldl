@@ -72,6 +72,8 @@ pip install --upgrade -r requirements.txt
 
 For public deployments, avoid accepting untrusted files beyond image uploads, run Streamlit behind normal access controls, and do not expose training data containing protected health information.
 
+Dependabot intentionally ignores major-version updates for `numpy` and `opencv-python` while this project uses Python 3.10. OpenCV 5 requires NumPy 2+, and the latest NumPy releases have moved past Python 3.10 support, so those upgrades should be handled together with a future Python 3.12+ migration.
+
 ## Smoke Test
 
 Run the lightweight import and model-file check with:

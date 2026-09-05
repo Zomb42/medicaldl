@@ -1,7 +1,7 @@
-numpy>=1.26,<3
+numpy>=1.26,<2
 opencv-python>=4.10.0.84,<5
 Pillow>=12.3.0,<13
 PyYAML>=6.0.3,<7
 streamlit>=1.62.0,<2
 ultralytics>=8.4.139,<9
-split-folders>=0.5.1,<0.6
+split-folders>=0.6.1,<0.7
