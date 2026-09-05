@@ -1,4 +1,4 @@
-numpy>=1.26,<2
+numpy>=2.5.2,<3
 opencv-python>=4.10.0.84,<5
 Pillow>=12.3.0,<13
 PyYAML>=6.0.3,<7
