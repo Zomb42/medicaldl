@@ -35,8 +35,10 @@ streamlit run app.py
 
 ### Option 2: Python venv
 
+Use Python 3.10–3.12 (NumPy 1.26 does not support Python 3.13+).
+
 ```bash
-python -m venv .venv
+python3.10 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
@@ -72,7 +74,11 @@ pip install --upgrade -r requirements.txt
 
 For public deployments, avoid accepting untrusted files beyond image uploads, run Streamlit behind normal access controls, and do not expose training data containing protected health information.
 
-Dependabot intentionally ignores major-version updates for `numpy` and `opencv-python` while this project uses Python 3.10. OpenCV 5 requires NumPy 2+, and the latest NumPy releases have moved past Python 3.10 support, so those upgrades should be handled together with a future Python 3.12+ migration.
+The existing model environment uses NumPy 1.26 and OpenCV 4.11. OpenCV 4.12+ requires NumPy 2 on Python 3.10+, so upgrading OpenCV requires testing a NumPy 2 migration. Dependabot ignores major-version updates for these two packages; review any proposed change to the OpenCV upper bound for compatibility.
+
+Routine Dependabot version updates are grouped into one monthly pull request. Security updates are grouped separately and are not delayed by the monthly version-update schedule. Keep Dependabot alerts and security updates enabled in GitHub. A dependency-update PR does not necessarily indicate a vulnerability.
+
+To reduce email for just this repository, use GitHub's **Watch → Custom** menu and choose the event types you want (for example, security alerts without pull requests). Unsubscribe from individual PR threads if you are already subscribed to them.
 
 ## Smoke Test
 
